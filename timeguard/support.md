@@ -1,4 +1,4 @@
-# TimeGuard Reminders — Support
+# TimeGuard Reminders - Support
 
 Questions, problems or suggestions? Email **reach.aarutech@gmail.com** and we'll reply as soon as we can.
 
