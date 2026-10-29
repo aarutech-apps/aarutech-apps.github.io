@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  {% seo %}
+  <style>
+    body {
+      margin: 0;
+      background: #FEFAE0;
+      color: #283618;
+      font: 16px/1.6 -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+    main { max-width: 720px; margin: 0 auto; padding: 32px 20px 56px; }
+    .brand {
+      margin: 0 0 24px;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #606C38;
+    }
+    h1 { font-size: 28px; line-height: 1.25; margin: 0 0 16px; }
+    h2 { font-size: 20px; margin: 28px 0 8px; }
+    a { color: #9C5B1E; }
+    li { margin: 4px 0; }
+  </style>
+</head>
+<body>
+  <main>
+    <p class="brand">AaruTech</p>
+    {{ content }}
+  </main>
+</body>
+</html>
