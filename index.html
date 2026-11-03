@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aarutech - Small apps for everyday life</title>
+<meta name="description" content="Aarutech builds simple, reliable apps that solve everyday problems: TimeGuard for reminders, Wainak for finding lost pets, and BillBook for tracking bills and dues, personal or business.">
+<meta property="og:title" content="Aarutech - Small apps for everyday life">
+<meta property="og:description" content="Reminders, lost pets, bills and dues - simple apps for the little things that matter.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://aarutech-apps.github.io/">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='16' fill='%23ff7a45'/><path d='M20 46 32 16l12 30M25 35h14' stroke='white' stroke-width='6' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#fbf8f3; --surface:#ffffff; --ink:#1b1a2e; --muted:#5d5b70; --line:#ebe5da;
+  --brand:#ff7a45; --brand-ink:#ffffff;
+  --tg:#f5a524; --tg-soft:#fff3dc;
+  --wk:#16a394; --wk-soft:#dcf5f1;
+  --bl:#6c5ce7; --bl-soft:#ebe8ff;
+  --shadow:0 1px 2px rgba(27,26,46,.04),0 12px 32px -12px rgba(27,26,46,.14);
+  --radius:22px;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#13121f; --surface:#1d1c2d; --ink:#f2f0f7; --muted:#a6a3b8; --line:#2c2a40;
+    --tg-soft:#3a2c12; --wk-soft:#0f3330; --bl-soft:#2a2552;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 12px 32px -12px rgba(0,0,0,.6);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#13121f; --surface:#1d1c2d; --ink:#f2f0f7; --muted:#a6a3b8; --line:#2c2a40;
+  --tg-soft:#3a2c12; --wk-soft:#0f3330; --bl-soft:#2a2552;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 12px 32px -12px rgba(0,0,0,.6);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font:400 17px/1.6 Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+h1,h2,h3{font-family:"Bricolage Grotesque",Inter,sans-serif;line-height:1.08;letter-spacing:-.02em}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+
+/* Nav */
+header{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--bg) 82%,transparent);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:68px}
+.logo{display:flex;align-items:center;gap:10px;font-family:"Bricolage Grotesque";font-weight:800;font-size:22px}
+.logo-mark{width:34px;height:34px;border-radius:10px;background:var(--brand);display:grid;place-items:center}
+.nav ul{display:flex;gap:28px;list-style:none;font-weight:500;color:var(--muted);font-size:15px}
+.nav ul a:hover{color:var(--ink)}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 22px;border-radius:999px;font-weight:600;font-size:15px;transition:transform .15s,box-shadow .15s}
+.btn:hover{transform:translateY(-2px)}
+.btn-primary{background:var(--ink);color:var(--bg)}
+.btn-ghost{border:1.5px solid var(--line);background:var(--surface)}
+
+/* Hero */
+.hero{padding:88px 0 72px;display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:999px;background:var(--surface);border:1px solid var(--line);font-size:14px;font-weight:500;color:var(--muted);margin-bottom:24px}
+.eyebrow i{width:8px;height:8px;border-radius:50%;background:var(--wk);box-shadow:0 0 0 4px var(--wk-soft)}
+.hero h1{font-size:clamp(42px,6.4vw,76px);font-weight:800;margin-bottom:22px}
+.hero h1 em{font-style:normal;background:linear-gradient(100deg,var(--tg),var(--brand) 45%,var(--bl));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{font-size:19px;color:var(--muted);max-width:520px;margin-bottom:34px}
+.cta{display:flex;gap:12px;flex-wrap:wrap}
+
+/* Floating notification stack */
+.stack{position:relative;height:420px}
+.note{position:absolute;display:flex;gap:14px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:16px 18px;box-shadow:var(--shadow);width:min(340px,100%);animation:float 6s ease-in-out infinite}
+.note b{display:block;font-size:15px}
+.note span{font-size:14px;color:var(--muted)}
+.note .ic{flex:none;width:46px;height:46px;border-radius:14px;display:grid;place-items:center}
+.note:nth-child(1){top:10px;left:0}
+.note:nth-child(2){top:150px;right:0;animation-delay:-2s}
+.note:nth-child(3){top:290px;left:30px;animation-delay:-4s}
+@keyframes float{50%{transform:translateY(-10px)}}
+@media (prefers-reduced-motion:reduce){.note{animation:none}}
+
+/* Sections */
+section{padding:80px 0}
+.sec-head{max-width:640px;margin-bottom:48px}
+.sec-head .kicker{font-weight:600;color:var(--brand);font-size:14px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:12px}
+.sec-head h2{font-size:clamp(32px,4.4vw,48px);margin-bottom:14px}
+.sec-head p{color:var(--muted);font-size:18px}
+
+/* App cards */
+.apps{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.app{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:30px;display:flex;flex-direction:column;box-shadow:var(--shadow);transition:transform .2s}
+.app:hover{transform:translateY(-6px)}
+.app-icon{width:64px;height:64px;border-radius:18px;display:grid;place-items:center;margin-bottom:22px}
+.app h3{font-size:28px;margin-bottom:4px}
+.app .tag{font-weight:600;font-size:15px;margin-bottom:14px}
+.app p{color:var(--muted);margin-bottom:20px}
+.app ul{list-style:none;display:grid;gap:9px;margin-bottom:26px;font-size:15px}
+.app li{display:flex;gap:10px;align-items:flex-start}
+.app li::before{content:"";flex:none;width:18px;height:18px;margin-top:3px;border-radius:50%;background:var(--c-soft) url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23555' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'><path d='m6 12 4 4 8-8'/></svg>") center/12px no-repeat}
+.app .links{margin-top:auto;display:flex;gap:10px;flex-wrap:wrap}
+.store{display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border-radius:12px;background:var(--ink);color:var(--bg);font-size:13px;font-weight:600}
+.store.soon{background:transparent;color:var(--muted);border:1.5px dashed var(--line)}
+.tg{--c:var(--tg);--c-soft:var(--tg-soft)} .wk{--c:var(--wk);--c-soft:var(--wk-soft)} .bl{--c:var(--bl);--c-soft:var(--bl-soft)}
+.app-icon,.note .ic{background:var(--c-soft);color:var(--c)}
+.app .tag{color:var(--c)}
+
+/* Values */
+.values{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.value{padding:26px;border-radius:var(--radius);border:1px solid var(--line);background:var(--surface)}
+.value .num{font-family:"Bricolage Grotesque";font-weight:800;font-size:15px;color:var(--brand);margin-bottom:14px}
+.value h3{font-size:21px;margin-bottom:8px}
+.value p{color:var(--muted);font-size:15px}
+
+/* Pipeline (how we build) */
+.pipe{display:flex;align-items:center;gap:0;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:30px 26px;overflow-x:auto}
+.step{flex:1;min-width:130px;text-align:center}
+.step .dot{width:48px;height:48px;margin:0 auto 12px;border-radius:50%;display:grid;place-items:center;background:var(--bg);border:2px solid var(--brand);font-weight:700;color:var(--brand)}
+.step b{display:block;font-size:16px}
+.step span{font-size:14px;color:var(--muted)}
+.arrow{flex:0 0 40px;height:2px;background:linear-gradient(90deg,var(--brand),var(--line));position:relative;top:-28px}
+
+/* CTA band */
+.band{background:var(--ink);color:var(--bg);border-radius:32px;padding:64px 48px;display:grid;grid-template-columns:1.3fr 1fr;gap:32px;align-items:center;position:relative;overflow:hidden}
+.band::after{content:"";position:absolute;width:420px;height:420px;right:-120px;top:-160px;border-radius:50%;background:radial-gradient(var(--brand),transparent 70%);opacity:.45}
+.band h2{font-size:clamp(30px,4vw,44px);margin-bottom:12px}
+.band p{opacity:.75}
+.band .btn{background:var(--brand);color:var(--brand-ink);position:relative;z-index:1;justify-self:end}
+
+/* Footer */
+footer{border-top:1px solid var(--line);padding:44px 0;margin-top:80px;color:var(--muted);font-size:15px}
+.foot{display:flex;justify-content:space-between;gap:32px;flex-wrap:wrap}
+.foot-cols{display:flex;gap:56px;flex-wrap:wrap}
+.foot h4{color:var(--ink);font-size:14px;margin-bottom:12px}
+.foot ul{list-style:none;display:grid;gap:8px}
+.foot a:hover{color:var(--ink)}
+.copy{margin-top:36px;font-size:14px}
+
+/* Responsive */
+@media (max-width:920px){
+  .hero{grid-template-columns:1fr;padding-top:56px}
+  .stack{height:380px;max-width:420px}
+  .apps{grid-template-columns:1fr}
+  .values{grid-template-columns:1fr 1fr}
+  .band{grid-template-columns:1fr;padding:44px 28px}
+  .band .btn{justify-self:start}
+}
+@media (max-width:640px){
+  .nav ul{display:none}
+  .values{grid-template-columns:1fr}
+  section{padding:56px 0}
+  .note{width:calc(100% - 20px)}
+  .note:nth-child(3){left:10px}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <nav class="wrap nav" aria-label="Main">
+    <a href="#" class="logo">
+      <span class="logo-mark"><svg width="20" height="20" viewBox="0 0 64 64" aria-hidden="true"><path d="M14 52 32 10l18 42M22 38h20" stroke="#fff" stroke-width="8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      Aarutech
+    </a>
+    <ul>
+      <li><a href="#apps">Apps</a></li>
+      <li><a href="#approach">Approach</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a href="#apps" class="btn btn-primary">Explore apps</a>
+  </nav>
+</header>
+
+<main>
+  <div class="wrap hero">
+    <div>
+      <span class="eyebrow"><i></i>Simple apps for real life</span>
+      <h1>The little things,<br><em>handled.</em></h1>
+      <p>Aarutech builds focused, friendly apps for the everyday problems that quietly eat your time - forgotten bills, missed pills, a pet that slipped out the door, dues you lose track of.</p>
+      <div class="cta">
+        <a href="#apps" class="btn btn-primary">See our apps →</a>
+        <a href="#contact" class="btn btn-ghost">Get in touch</a>
+      </div>
+    </div>
+
+    <div class="stack" aria-hidden="true">
+      <div class="note tg">
+        <div class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2M5 3 2 6M19 3l3 3"/></svg></div>
+        <div><b>TimeGuard</b><span>Electricity bill due tomorrow · 8:00 PM pills</span></div>
+      </div>
+      <div class="note wk">
+        <div class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="10" r="2.2"/><circle cx="9.5" cy="5.5" r="2.2"/><circle cx="14.5" cy="5.5" r="2.2"/><circle cx="19" cy="10" r="2.2"/><path d="M12 11c-3 0-6 4.5-6 7 0 1.7 1.3 2.5 3 2.5 1.2 0 2-.6 3-.6s1.8.6 3 .6c1.7 0 3-.8 3-2.5 0-2.5-3-7-6-7Z"/></svg></div>
+        <div><b>Wainak</b><span>Luna was spotted 400 m from home 🐾</span></div>
+      </div>
+      <div class="note bl">
+        <div class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h12v20l-3-2-3 2-3-2-3 2Z"/><path d="M9 7h6M9 11h6M9 15h3"/></svg></div>
+        <div><b>BillBook</b><span>Al Noor Traders owes you QAR 1,250</span></div>
+      </div>
+    </div>
+  </div>
+
+  <section id="apps">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="kicker">Our apps</div>
+        <h2>One problem. One app. Done well.</h2>
+        <p>Each Aarutech app does a single job and gets out of your way.</p>
+      </div>
+
+      <div class="apps">
+        <article class="app tg">
+          <div class="app-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2M5 3 2 6M19 3l3 3"/></svg></div>
+          <h3>TimeGuard</h3>
+          <div class="tag">Reminds you of everything - from bills to pills.</div>
+          <p>Never miss what matters. Set it once and TimeGuard keeps watch over your due dates, doses, renewals and routines.</p>
+          <ul>
+            <li>Bill, subscription & renewal reminders</li>
+            <li>Medication schedules with gentle nudges</li>
+            <li>Recurring tasks and important dates</li>
+          </ul>
+          <div class="links">
+            <a class="store" href="#">Google Play</a>
+            <a class="store soon" href="#">App Store - soon</a>
+          </div>
+        </article>
+
+        <article class="app wk">
+          <div class="app-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="10" r="2.2"/><circle cx="9.5" cy="5.5" r="2.2"/><circle cx="14.5" cy="5.5" r="2.2"/><circle cx="19" cy="10" r="2.2"/><path d="M12 11c-3 0-6 4.5-6 7 0 1.7 1.3 2.5 3 2.5 1.2 0 2-.6 3-.6s1.8.6 3 .6c1.7 0 3-.8 3-2.5 0-2.5-3-7-6-7Z"/></svg></div>
+          <h3>Wainak</h3>
+          <div class="tag">Helping lost pets find their way home.</div>
+          <p>When a pet goes missing, every minute counts. Wainak connects owners with neighbours who can help spot and return them fast.</p>
+          <ul>
+            <li>Post a lost or found pet in seconds</li>
+            <li>Alerts to people nearby</li>
+            <li>Photos, last-seen location & safe contact</li>
+          </ul>
+          <div class="links">
+            <a class="store" href="#">Google Play</a>
+            <a class="store soon" href="#">App Store - soon</a>
+          </div>
+        </article>
+
+        <article class="app bl">
+          <div class="app-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h12v20l-3-2-3 2-3-2-3 2Z"/><path d="M9 7h6M9 11h6M9 15h3"/></svg></div>
+          <h3>BillBook</h3>
+          <div class="tag">Bills and dues, for home and business.</div>
+          <p>Snap a bill and BillBook reads it for you. Track what's paid, what's still owed, and to whom - in a personal book or a business book.</p>
+          <ul>
+            <li>Scan a bill - vendor, date, total and items filled in</li>
+            <li>Personal: what you owe · Business: purchases &amp; sales</li>
+            <li>Part-payments, overdue flags and party balances</li>
+            <li>Fully offline - no account, data stays on your phone</li>
+          </ul>
+          <div class="links">
+            <a class="store" href="#">Google Play</a>
+            <a class="store soon" href="#">App Store - soon</a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="approach">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="kicker">Our approach</div>
+        <h2>Built for people, not for engagement metrics.</h2>
+        <p>We make the kind of apps we want on our own phones.</p>
+      </div>
+
+      <div class="values">
+        <div class="value"><div class="num">01</div><h3>Solve real problems</h3><p>Every app starts from a frustration we've actually lived through.</p></div>
+        <div class="value"><div class="num">02</div><h3>Keep it simple</h3><p>Clean screens, few taps, no learning curve.</p></div>
+        <div class="value"><div class="num">03</div><h3>Respect privacy</h3><p>We collect only what an app needs to work - nothing more.</p></div>
+        <div class="value"><div class="num">04</div><h3>Stay reliable</h3><p>Reminders that fire on time. Data that's there when you need it.</p></div>
+      </div>
+
+      <div class="pipe" style="margin-top:28px" aria-label="How we build">
+        <div class="step"><div class="dot">1</div><b>Listen</b><span>Spot a daily pain</span></div>
+        <div class="arrow"></div>
+        <div class="step"><div class="dot">2</div><b>Design</b><span>Strip it to essentials</span></div>
+        <div class="arrow"></div>
+        <div class="step"><div class="dot">3</div><b>Build</b><span>Fast, stable, secure</span></div>
+        <div class="arrow"></div>
+        <div class="step"><div class="dot">4</div><b>Improve</b><span>Shaped by your feedback</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="wrap">
+      <div class="band">
+        <div>
+          <h2>Got an everyday problem worth solving?</h2>
+          <p>Feedback, feature ideas, partnerships or support - we read every message.</p>
+        </div>
+        <a class="btn" href="mailto:reach.aarutech@gmail.com">reach.aarutech@gmail.com →</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <div style="max-width:300px">
+        <a href="#" class="logo" style="color:var(--ink);margin-bottom:10px">Aarutech</a>
+        <p>Small apps that make everyday life a little easier.</p>
+      </div>
+      <div class="foot-cols">
+        <div><h4>Apps</h4><ul><li><a href="#apps">TimeGuard</a></li><li><a href="#apps">Wainak</a></li><li><a href="#apps">BillBook</a></li></ul></div>
+        <div><h4>Legal</h4><ul><li><a href="timeguard/privacy.html">TimeGuard privacy</a></li><li><a href="wainak/privacy.html">Wainak privacy</a></li><li><a href="billbook/privacy.html">BillBook privacy</a></li></ul></div>
+        <div><h4>Company</h4><ul><li><a href="#approach">Approach</a></li><li><a href="#contact">Contact</a></li></ul></div>
+      </div>
+    </div>
+    <p class="copy">© <span id="yr">2026</span> Aarutech. All rights reserved.</p>
+  </div>
+</footer>
+
+<script>document.getElementById('yr').textContent=new Date().getFullYear();</script>
+</body>
+</html>
