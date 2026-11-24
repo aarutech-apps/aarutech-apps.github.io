@@ -47,7 +47,7 @@ You can delete everything yourself anytime in the app (see below) or contact us.
 You can delete your account at any time in the app: **Profile → Delete my account**. This permanently
 removes your profile, your messages and photos, and any lost-pet reports you created. Copies may remain in the
 server's backups for up to 14 days, after which they are deleted automatically. See also
-[how to delete your account](/wainak/delete-account).
+[how to delete your account](delete-account.html).
 
 ## Age
 
