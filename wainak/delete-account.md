@@ -1,7 +1,5 @@
 # Delete your Wainak account
 
-[العربية](/ar/delete-account)
-
 ## In the app (instant)
 
 1. Open Wainak and go to the **Profile** tab.
