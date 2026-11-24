@@ -1,8 +1,6 @@
 
 # Wainak Privacy Policy
 
-[العربية](/ar/privacy)
-
 *Last updated: 28 September 2026*
 
 Wainak helps people find lost pets quickly. When an owner reports a lost pet, registered users nearby
@@ -49,7 +47,7 @@ You can delete everything yourself anytime in the app (see below) or contact us.
 You can delete your account at any time in the app: **Profile → Delete my account**. This permanently
 removes your profile, your messages and photos, and any lost-pet reports you created. Copies may remain in the
 server's backups for up to 14 days, after which they are deleted automatically. See also
-[how to delete your account](/delete-account).
+[how to delete your account](/wainak/delete-account).
 
 ## Age
 
